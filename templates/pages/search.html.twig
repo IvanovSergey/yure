@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block body %} 
+    <!-- Page Content -->
+    <div class="container">
+    <!-- Content Row -->
+      <div class="row">
+          {% for item in statements %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ item.name }}</h2>
+                        <p class="card-text">{{ item.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ app.request.uri }}statement/{{ item.seopath }}" class="btn btn-primary">More Info</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+      </div>
+      <!-- /.row -->
+      </div>
+{% endblock %}

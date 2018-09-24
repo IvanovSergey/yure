@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block body %}  
+    
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Heading Row -->
+      <div class="row my-4">
+        <div class="col-lg-8">
+          <img class="img-fluid rounded" src="http://placehold.it/900x400" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+          <h1>Business Name or Tagline</h1>
+          <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
+          <a class="btn btn-primary btn-lg" href="#">Call to Action!</a>
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
+
+      <!-- Call to Action Well -->
+      <div class="card text-white bg-secondary my-4 text-center">
+        <div class="card-body">
+          <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p>
+        </div>
+      </div>
+      
+      <div class="container">
+        <div class="row">            
+            {% for item in categories %}
+                <div class="col-md-4 mb-4 ">
+                    <a href="{{ app.request.uri }}category/{{ item.seopath }}" class="btn btn-primary active" style="width:100%" role="button" aria-pressed="true">{{ item.name }}</a>
+                </div>
+            {% endfor %}
+        </div> 
+      </div>
+      
+      <!-- Content Row -->
+      <div class="row">
+          {% for item in statements %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ item.name }}</h2>
+                        <p class="card-text">{{ item.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ app.request.uri }}statement/{{ item.seopath }}" class="btn btn-primary">More Info</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->   
+
+{% endblock %}
