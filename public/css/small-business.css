@@ -13,3 +13,7 @@ body {
     padding-top: 81px;
   }
 }
+
+.fos_user_registration_register div.form-group input{
+    margin-bottom: 1rem;
+}

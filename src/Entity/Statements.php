@@ -60,7 +60,6 @@ class Statements
     /**
      * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
      * @Assert\File()
      */
     private $screenshot;
@@ -165,7 +164,7 @@ class Statements
     }
     
     public function setScreenshot($screenshot): self
-    {
+    { 
         $this->screenshot = $screenshot;
 
         return $this;
@@ -176,25 +175,30 @@ class Statements
     * @ORM\PreUpdate
     */
     public function upload()
-    { 
+    {  
         // the file property can be empty if the field is not required
-        if (null === $this->getScreenshot()) {
-            return;
+        if (null === $this->getScreenshot() || !method_exists($this->getScreenshot(), 'getClientOriginalName')) { 
+            if(!empty($this->getScreenshot())){
+                $screenshot_path = explode('/', $this->getScreenshot());
+                $screenshot_path = end($screenshot_path);
+                $this->setScreenshot($screenshot_path);
+            }
+        } else {
+            // we use the original file name here but you should
+            // sanitize it at least to avoid any security issues
+            // move takes the target directory and target filename as params
+            $this->getScreenshot()->move(
+                self::SERVER_PATH_TO_IMAGE_FOLDER,
+                $this->getScreenshot()->getClientOriginalName()
+            );
+
+            // set the path property to the filename where you've saved the file
+            $this->filename = $this->getScreenshot()->getClientOriginalName();
+
+            // clean up the file property as you won't need it anymore
+
+            $this->setScreenshot($this->filename);
         }
-
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-        // move takes the target directory and target filename as params
-        $this->getScreenshot()->move(
-            self::SERVER_PATH_TO_IMAGE_FOLDER,
-            $this->getScreenshot()->getClientOriginalName()
-        );
-
-        // set the path property to the filename where you've saved the file
-        $this->filename = $this->getScreenshot()->getClientOriginalName();
-
-        // clean up the file property as you won't need it anymore
-        $this->setScreenshot($this->filename);
     }
     
     /**

@@ -27,8 +27,12 @@
                         {% endfor %}
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('fos_user_profile_show') }}">Ваш профиль</a>
+                <li class="nav-item"> 
+                    {% if app.user == null %}
+                        <a class="nav-link" href="{{ url('fos_user_registration_register') }}">Регистрация</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ url('fos_user_profile_show') }}">Ваш профиль</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Последние комментарии</a>

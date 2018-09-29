@@ -23,7 +23,7 @@ class BaseController extends AbstractController
         
         $defaultData = array('message' => 'Поиск по заявлениям');
         $form = $this->createFormBuilder($defaultData)
-            ->setAction('search')
+            ->setAction('/search')
             ->add('name', TextType::class, array('label' => false, 'attr' => ['placeholder' => 'Поиск по заявлениям', 'class' => 'form-control', 'minlength' => '3'], 'constraints' => new Length(array('min' => 3))))
             ->add('send', SubmitType::class, array('attr' => ['class' => 'btn btn-primary']))
             ->getForm();
@@ -56,11 +56,7 @@ class BaseController extends AbstractController
                 ->setParameter('name', '%' . $data['name'] . '%')
                 ->getQuery();
             
-            $statements = $result->execute();            
-            /*foreach($data as $tre){
-                var_dump($tre->getName());
-            }
-            die;*/
+            $statements = $result->execute(); 
             return $this->render('pages/search.html.twig',[
                 'statements' => $statements
             ]);

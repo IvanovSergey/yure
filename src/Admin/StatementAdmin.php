@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Entity\Statements;
 use App\Entity\Categories;
 
@@ -33,6 +34,12 @@ class StatementAdmin extends AbstractAdmin
 
             // add a 'help' option containing the preview's img tag
             $fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
+        }
+        
+        if(!empty($statement->getScreenshot())){
+            $empty_path = new File(__DIR__ . '/../../assets/uploads/screenshots/' . $statement->getScreenshot());
+        } else {
+            $empty_path = '';
         }
         
         $formMapper
@@ -57,8 +64,10 @@ class StatementAdmin extends AbstractAdmin
             ])
             ->add('screenshot', FileType::class, [
                 'label' => 'Скрин документа',
+                'empty_data' => $empty_path,
                 'data_class' => null,
-                'help' => $fileFieldOptions['help']
+                'help' => '<img src="' . __DIR__ . '/../../assets/uploads/screenshots/' . $statement->getScreenshot() . '" />',
+                'required' => false
             ])
         ;
     }

@@ -1,0 +1,24 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<h2 class="text-center">Зарегистрируйтесь</h2>
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+ <div class="form-group">
+    {{ form_errors(form.email) }}
+    {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': form.email.vars.label} }) }}
+    {{ form_help(form.email) }}
+    
+    {{ form_errors(form.username) }}
+    {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'placeholder': form.username.vars.label} }) }}
+    {{ form_help(form.username) }}
+    
+    {{ form_errors(form.plainPassword.first) }}
+    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control', 'placeholder': form.plainPassword.first.vars.label} }) }}
+    {{ form_help(form.plainPassword.first) }}
+    
+    {{ form_errors(form.plainPassword.second) }}
+    {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control', 'placeholder': form.plainPassword.second.vars.label} }) }}
+    {{ form_help(form.plainPassword.second) }}
+</div>
+    <div>
+        <input class="btn btn-primary btn-lg" type="submit" value="{{ 'registration.submit'|trans }}" />
+    </div>
+{{ form_end(form) }}
