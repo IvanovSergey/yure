@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}{{ statement.name }}{% endblock %}
+
+{% block stylesheets %}
+<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}" type="text/javascript"></script>
+{{ parent() }}
+{% endblock %}
 
 {% block body %}    
     <!-- Page Content -->
@@ -11,79 +16,86 @@
         <!-- Post Content Column -->
         <div class="col-lg-8">
 
-          <!-- Title -->
-          <h1 class="mt-4">{{ statement.name }}</h1>
+            <div id="statement_origin" style="display:none;">{{ statement.content }}</div>
+            
+            <!-- Title -->
+            <h1 class="mt-4">{{ statement.name }}</h1>
 
-          <!-- Author -->
-          <p class="lead">
-            by
-            <a href="#">Start Bootstrap</a>
-          </p>
+            <!-- Author -->
+            <p class="lead">
+              by
+              <a href="#">Start Bootstrap</a>
+            </p>
 
-          <hr>
+            <hr>
 
-          <!-- Date/Time -->
-          <p>Обновлено {{ statement.updateDate|localizeddate('none', 'none', app.request.locale, "Europe/Moscow", "d MMMM yyyy', в' hh:mm") }}</p>
+            <!-- Date/Time -->
+            <p>Обновлено {{ statement.updateDate|localizeddate('none', 'none', app.request.locale, "Europe/Moscow", "d MMMM yyyy', в' hh:mm") }}</p>
 
-          <hr>
+            <hr>
 
-          <!-- Post Content -->
-          {{ statement.description }}          
+            <!-- Post Content -->
+            {{ statement.description }}          
 
-          <hr>
+            <hr>
 
-          <!-- Preview Image -->
-          <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+            <!-- Preview Image -->
+            <img class="img-fluid rounded" src="{{ asset('upload/screenshots/') }}{{ statement.screenshot }}" alt="">
 
-          <hr>
+            <hr>
 
-          <!-- Comments Form -->
-          <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
+            <textarea name="editor1" id="editor1" rows="10" cols="80">
+                  {{ statement.content|raw }} 
+            </textarea> 
 
-          <!-- Single Comment -->
-          <div class="media mb-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-          </div>
-
-          <!-- Comment with nested comments -->
-          <div class="media mb-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
+            <hr>
+            <!-- Comments Form -->
+            <div class="card my-4">
+              <h5 class="card-header">Leave a Comment:</h5>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
               </div>
-
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-              </div>
-
             </div>
-          </div>
+
+            <!-- Single Comment -->
+            <div class="media mb-4">
+              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <div class="media-body">
+                <h5 class="mt-0">Commenter Name</h5>
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+              </div>
+            </div>
+
+            <!-- Comment with nested comments -->
+            <div class="media mb-4">
+              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <div class="media-body">
+                <h5 class="mt-0">Commenter Name</h5>
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+                <div class="media mt-4">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  </div>
+                </div>
+
+                <div class="media mt-4">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  </div>
+                </div>
+
+              </div>
+            </div>
 
         </div>
 
@@ -152,5 +164,16 @@
       <!-- /.row -->
 
     </div>
-    <!-- /.container -->   
+    <!-- /.container --> 
+    
+<script>
+    CKEDITOR.replace( 'editor1' );
+</script>
 {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/statement.js') }}"></script>
+{% endblock %}
+

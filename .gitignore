@@ -2,8 +2,10 @@
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
+/public/upload/
 /var/
 /vendor/
+/web/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

@@ -37,7 +37,7 @@ class StatementAdmin extends AbstractAdmin
         }
         
         if(!empty($statement->getScreenshot())){
-            $empty_path = new File(__DIR__ . '/../../assets/uploads/screenshots/' . $statement->getScreenshot());
+            $empty_path = new File(__DIR__ . '/../../public/upload/screenshots/' . $statement->getScreenshot());
         } else {
             $empty_path = '';
         }
@@ -66,7 +66,7 @@ class StatementAdmin extends AbstractAdmin
                 'label' => 'Скрин документа',
                 'empty_data' => $empty_path,
                 'data_class' => null,
-                'help' => '<img src="' . __DIR__ . '/../../assets/uploads/screenshots/' . $statement->getScreenshot() . '" />',
+                'help' => '<img src="/upload/screenshots/' . $statement->getScreenshot() . '" />',
                 'required' => false
             ])
         ;

@@ -55,7 +55,7 @@ class Statements
      */
     private $category_id;
 
-    const SERVER_PATH_TO_IMAGE_FOLDER = __DIR__ . '/../../assets/uploads/screenshots';
+    const SERVER_PATH_TO_IMAGE_FOLDER = __DIR__ . '/../../public/upload/screenshots';
     
     /**
      * @ORM\Column(type="string")
