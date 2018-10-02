@@ -1,0 +1,8 @@
+{% block body %}
+    {{ form_start(form) }}
+    Напишите краткое описание необходимого вам заявления
+    {{ form_widget(form.text) }} <br />
+    {{ form_label(form.send) }}
+    {{ form_widget(form.send, {'id': 'statement_request_submit'}) }}
+    {{ form_end(form) }}
+{% endblock %}

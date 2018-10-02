@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Statements;
-
+use App\Entity\StatementVars;
 
 class StatementController extends AbstractController
 {
@@ -17,15 +17,8 @@ class StatementController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Statements::class);
         
         $statement = $repository->findOneBy(['seo_path' => $seo_path]);
-        
-        $stat_content = $statement->getContent();
-        $pattern = '~\[id\](.*?)\[\/id\]~';
-        preg_match_all($pattern, $stat_content, $matches);
-        
-        foreach($matches[1] as $key=>$match){
-            $var_list[$key]['tip'] = 'tip';
-            $var_list[$key]['key'] = $match;
-        }        
+                
+        $var_list = $this->getStatementVars('id', $statement->getContent());
         
         return $this->render('statement/index.html.twig', [
             'controller_name' => 'StatementController',
@@ -34,35 +27,15 @@ class StatementController extends AbstractController
         ]);
     }
     
-    function getTextBetweenTags($tag, $html, $strict=0)
+    function getStatementVars($word, $html)
     {
-        /*** a new dom object ***/
-        $dom = new \domDocument;
-
-        /*** load the html into the object ***/
-        if($strict==1)
-        {
-            $dom->loadXML($html);
-        }
-        else
-        {
-            $dom->loadHTML($html);
-        }
-
-        /*** discard white space ***/
-        $dom->preserveWhiteSpace = false;
-
-        /*** the tag by its tag name ***/
-        $content = $dom->getElementsByTagname($tag);
-
-        /*** the array to return ***/
-        $out = array();
-        foreach ($content as $item)
-        {
-            /*** add node value to the out array ***/
-            $out[] = $item->nodeValue;
-        }
-        /*** return the results ***/
-        return $out;
+        $pattern = '~\[' . $word . '\](.*?)\[\/' . $word . '\]~';
+        preg_match_all($pattern, $html, $matches);
+        
+        $repository = $this->getDoctrine()->getRepository(StatementVars::class);
+        
+        $statement_vars = $repository->findInTipValues($matches[1]);
+        
+        return $statement_vars;
     }
 }

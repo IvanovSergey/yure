@@ -11,9 +11,22 @@
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-4">
-            {% block fos_user_content %}
-                {{ render(path('fos_user_registration_register')) }}
-            {% endblock fos_user_content %}
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Добрый день {{ app.user.username }}!</h2>
+                        <p class="card-text">Вы можете оставить заявку на добавление необходимого вам заявления</p>
+                        <button type="button" class="btn btn-primary" id="statementRequest" data-toggle="modal" data-target="#exampleModal">Оставить заявку</button>
+                    </div>
+                    <!--div class="card-footer">
+                        <a href="http://yure/statement/test4" class="btn btn-primary">Оставить заявку</a>
+                    </div-->
+                </div>                
+            {% else %}
+                {% block fos_user_content %}
+                    {{ render(path('fos_user_registration_register')) }}
+                {% endblock fos_user_content %}
+            {% endif %}
         </div>
         <!-- /.col-md-4 -->
       </div>
@@ -56,5 +69,19 @@
 
     </div>
     <!-- /.container -->   
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="modal_content" class="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}

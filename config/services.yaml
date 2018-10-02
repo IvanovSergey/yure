@@ -42,6 +42,24 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Statements }
         public: true
+    admin.statementvars:
+        class: App\Admin\StatementVarsAdmin
+        arguments: [~, App\Entity\StatementVars, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: StatementVars }
+        public: true
+    admin.statementrequest:
+        class: App\Admin\StatementRequestAdmin
+        arguments: [~, App\Entity\StatementRequest, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: StatementRequest }
+        public: true
+    admin.statementcomments:
+        class: App\Admin\StatementCommentsAdmin
+        arguments: [~, App\Entity\StatementComments, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: StatementComments }
+        public: true
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:

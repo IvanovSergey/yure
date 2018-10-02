@@ -64,9 +64,15 @@ class Statements
      */
     private $screenshot;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StatementComments", mappedBy="statement")
+     */
+    private $statementComments;
+
     public function __construct()
     {
         $this->category_id = new ArrayCollection();
+        $this->statementComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,5 +213,36 @@ class Statements
    public function lifecycleFileUpload()
    {
        $this->upload();
+   }
+
+   /**
+    * @return Collection|StatementComments[]
+    */
+   public function getStatementComments(): Collection
+   {
+       return $this->statementComments;
+   }
+
+   public function addStatementComment(StatementComments $statementComment): self
+   {
+       if (!$this->statementComments->contains($statementComment)) {
+           $this->statementComments[] = $statementComment;
+           $statementComment->setStatement($this);
+       }
+
+       return $this;
+   }
+
+   public function removeStatementComment(StatementComments $statementComment): self
+   {
+       if ($this->statementComments->contains($statementComment)) {
+           $this->statementComments->removeElement($statementComment);
+           // set the owning side to null (unless already changed)
+           if ($statementComment->getStatement() === $this) {
+               $statementComment->setStatement(null);
+           }
+       }
+
+       return $this;
    }
 }

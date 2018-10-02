@@ -2,178 +2,92 @@
 
 {% block title %}{{ statement.name }}{% endblock %}
 
-{% block stylesheets %}
-<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}" type="text/javascript"></script>
-{{ parent() }}
-{% endblock %}
-
 {% block body %}    
-    <!-- Page Content -->
     <div class="container">
 
       <div class="row">
 
-        <!-- Post Content Column -->
         <div class="col-lg-8">
 
             <div id="statement_origin" style="display:none;">{{ statement.content }}</div>
             
-            <!-- Title -->
             <h1 class="mt-4">{{ statement.name }}</h1>
-
-            <!-- Author -->
-            <p class="lead">
-              by
-              <a href="#">Start Bootstrap</a>
-            </p>
 
             <hr>
 
-            <!-- Date/Time -->
             <p>Обновлено {{ statement.updateDate|localizeddate('none', 'none', app.request.locale, "Europe/Moscow", "d MMMM yyyy', в' hh:mm") }}</p>
 
             <hr>
 
-            <!-- Post Content -->
             {{ statement.description }}          
 
             <hr>
 
-            <!-- Preview Image -->
-            <img class="img-fluid rounded" src="{{ asset('upload/screenshots/') }}{{ statement.screenshot }}" alt="">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <textarea name="editor1" id="editor1" rows="10" cols="80">
+                    {{ statement.content|raw }} 
+                </textarea> 
 
-            <hr>
+                <hr>
+            {% else %}
+                <img class="img-fluid rounded" src="{{ asset('upload/screenshots/') }}{{ statement.screenshot }}" alt="">
 
-            <textarea name="editor1" id="editor1" rows="10" cols="80">
-                  {{ statement.content|raw }} 
-            </textarea> 
-
-            <hr>
-            <!-- Comments Form -->
-            <div class="card my-4">
-              <h5 class="card-header">Leave a Comment:</h5>
-              <div class="card-body">
-                <form>
-                  <div class="form-group">
-                    <textarea class="form-control" rows="3"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-              </div>
-            </div>
-
-            <!-- Single Comment -->
-            <div class="media mb-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-            <!-- Comment with nested comments -->
-            <div class="media mb-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                <div class="media mt-4">
-                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                  <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  </div>
+                <hr>
+            {% endif %}
+            
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <textarea id="comment_text" class="form-control" rows="3"></textarea>
+                            </div>
+                            <input type="hidden" id="statement_id" value="{{ statement.id }}" />
+                            <button id="comment_submit" type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
                 </div>
-
-                <div class="media mt-4">
-                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                  <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  </div>
+            {% endif %}
+            
+            {% for comment in statement.statementComments if comment.approved %}            
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ comment.user.username }}</h5>
+                        {{ comment.text }}
+                    </div>
                 </div>
-
-              </div>
-            </div>
+            {% endfor %}
 
         </div>
 
-        <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
-
-          <!-- Search Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Search</h5>
-            <div class="card-body">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Categories</h5>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Web Design</a>
-                    </li>
-                    <li>
-                      <a href="#">HTML</a>
-                    </li>
-                    <li>
-                      <a href="#">Freebies</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Side Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div id="state_vars_block" class="card-body">
+                    {% for var in var_list %}
+                        {{ var.tip }}
+                        <input type="text" name="{{ var.name }}" class="form-control" value="{{ var.defaultValue }}" placeholder=""><br />
+                    {% endfor %}
+                    <button id="use_vars" class="btn btn-primary">Применить</button>
+                </div>
             </div>
-          </div>
 
         </div>
 
       </div>
-      <!-- /.row -->
 
     </div>
-    <!-- /.container --> 
     
-<script>
-    CKEDITOR.replace( 'editor1' );
-</script>
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/statement.js') }}"></script>
+    <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/classes/statementClass.js') }}?{{ date().timestamp }}"></script>
+    <script src="{{ asset('js/statement.js') }}?{{ date().timestamp }}"></script>
 {% endblock %}
 
