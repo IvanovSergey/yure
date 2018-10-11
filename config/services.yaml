@@ -64,3 +64,12 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+    app.security.authentication_handler:
+        class: App\Security\AuthenticationHandler
+        public: false
+        arguments:
+            - "@router"
+            - "@session"
+    fos_user_form_factory:
+        alias: fos_user.registration.form.factory
+        public: true

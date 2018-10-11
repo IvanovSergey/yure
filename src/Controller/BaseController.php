@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\Length;
+use App\Handler\AuthenticationHandler;
 use App\Entity\Categories;
 use App\Entity\Statements;
 
@@ -68,5 +69,20 @@ class BaseController extends AbstractController
         
         $this->get('session')->getFlashBag()->add('info', implode(',', $errors));
         return $this->redirectToRoute('homepage');
+    }
+    
+    public function getLastStatement()
+    {
+        $statement = $this->getDoctrine()->getRepository(Statements::class);
+        
+        $last_statement = $statement->findBy(
+            array(),
+            ['update_date' => 'ASC'],
+            ['limit' => '1']
+        );
+        
+        return $this->render('base/lastStatement.html.twig', [
+            'statement' => $last_statement[0]
+        ]);
     }
 }

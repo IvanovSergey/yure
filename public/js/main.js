@@ -23,5 +23,25 @@ $( document ).ready(function() {
                 }
         }); 
     });
+    
+    $('#_submit').click(function(){
+        $(this).html('<div style="color:#fff" class="ld ld-ring ld-spin"></div>').prop('disabled', true);
+        $.ajax({
+                url:    $('#login_form').attr('action'),
+                type:   "POST",
+                dataType:   "json",
+                data: $('#login_form').serialize(),
+                async: true,
+                complete: function (data){
+                    if(data.responseJSON.success == false){
+                        $('#login_error').show();
+                        $('#_submit').html('Войти').prop('disabled', false);
+                    }
+                    else
+                        location.reload();
+                }                
+        }); 
+        return false;
+    });
 });
 

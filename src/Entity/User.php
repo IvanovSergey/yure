@@ -24,7 +24,22 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StatementComments", mappedBy="user")
      */
-    private $statementComments;
+    protected $statementComments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $First_name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $Second_name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $Middle_name;
 
     public function __construct()
     {
@@ -60,6 +75,42 @@ class User extends BaseUser
                 $statementComment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->First_name;
+    }
+
+    public function setFirstName(?string $First_name): self
+    {
+        $this->First_name = $First_name;
+
+        return $this;
+    }
+
+    public function getSecondName(): ?string
+    {
+        return $this->Second_name;
+    }
+
+    public function setSecondName(?string $Second_name): self
+    {
+        $this->Second_name = $Second_name;
+
+        return $this;
+    }
+
+    public function getMiddleName(): ?string
+    {
+        return $this->Middle_name;
+    }
+
+    public function setMiddleName(?string $Middle_name): self
+    {
+        $this->Middle_name = $Middle_name;
 
         return $this;
     }

@@ -18,8 +18,11 @@ security:
         main:
             pattern: ^/
             form_login:
-                provider: fos_userbundle
+                provider: fos_userbundle                
+                check_path:    security_check
                 csrf_token_generator: security.csrf.token_manager
+                success_handler: app.security.authentication_handler
+                failure_handler: app.security.authentication_handler
 
             logout:       true
             anonymous:    true
@@ -27,7 +30,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, role: NONE }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
