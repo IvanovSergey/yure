@@ -1,0 +1,25 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+<div class="alert alert-danger" style="display:none;" id="login_error" role="alert">
+    Неверный логин или пароль!
+</div>
+<form action="{{ path("security_check") }}" id="login_form" method="post" class="fos_user_registration_register">
+    {% if csrf_token %}
+        <input type="hidden" id="_csrf_token" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
+
+    <label for="username">{{ 'security.login.username'|trans }}</label>
+    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+
+    <label for="password">{{ 'security.login.password'|trans }}</label>
+    <input class="form-control" type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+
+    <div class="custom-control custom-checkbox my-2 mr-sm-4">
+        <input class="custom-control-input" type="checkbox" id="remember_me" name="_remember_me" value="on" />
+        <label class="custom-control-label" for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    </div>
+    <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order" class="btn btn-primary btn-lg" type="submit" id="_submit" name="_submit">{{ 'security.login.submit'|trans }}</button>
+</form>

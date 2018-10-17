@@ -5,12 +5,12 @@
     <div class="container">
 
       <!-- Heading Row -->
-      <div class="row my-4">
-        <div class="col-lg-8">
-          <img class="img-fluid rounded" src="{{ asset('upload/P_20181003_115632.jpg') }}" alt="">
-        </div>
+      <div class="row my-4">        
+          
+        {{ include('widgets/search_widget.html.twig') }}
+          
         <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="display:none;">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <div class="card h-100">
                     <div class="card-body">
@@ -18,26 +18,16 @@
                         <p class="card-text">Вы можете оставить заявку на добавление необходимого вам заявления</p>
                         <button type="button" class="btn btn-primary" id="statementRequest" data-toggle="modal" data-target="#exampleModal">Оставить заявку</button>
                     </div>
-                    <!--div class="card-footer">
-                        <a href="http://yure/statement/test4" class="btn btn-primary">Оставить заявку</a>
-                    </div-->
                 </div>                
             {% else %}
                 {% block fos_user_content %}
-                    {{ render(path('fos_user_registration_register')) }}
+                    {{ render(path('register_home')) }}
                 {% endblock fos_user_content %}
             {% endif %}
         </div>
         <!-- /.col-md-4 -->
       </div>
       <!-- /.row -->
-
-      <!-- Call to Action Well -->
-      <div class="card text-white bg-secondary my-4 text-center">
-        <div class="card-body">
-          <p class="text-white m-0">Бесплатные легальные документы, заявления и контракты. Распечатывайте или скачивайте ваши отредактированные документы за 5-10 минут.</p>
-        </div>
-      </div>
       
       <div class="container">
         <div class="row">            

@@ -31,3 +31,25 @@ body {
 .footer_block .container{
     margin-top: 20px;
 }
+
+.footer_block div div div a:hover{
+    text-decoration: none;
+}
+
+.search-input{
+    width:75%;
+}
+
+.main-search{
+    vertical-align: top;
+}
+
+.search-wrapper{
+    margin: 50px 0 100px 0;
+}
+
+.form-wrapper{
+    background-color: #343a40!important;
+    padding: 10px;
+    border-radius: .75rem;
+}

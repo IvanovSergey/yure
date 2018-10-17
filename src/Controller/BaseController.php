@@ -58,6 +58,19 @@ class BaseController extends AbstractController
                 ->getQuery();
             
             $statements = $result->execute(); 
+            
+            $request->request->set('search_widget', $data['name']);
+            return $this->render('pages/search.html.twig',[
+                'statements' => $statements
+            ]);
+        } else if(null !== $request->request->get('search_widget')){
+            $stat_rep = $this->getDoctrine()->getRepository(Statements::class);
+            $result = $stat_rep->createQueryBuilder('s')
+                ->where('s.name LIKE :name')
+                ->setParameter('name', '%' . $request->request->get('search_widget') . '%')
+                ->getQuery();
+            
+            $statements = $result->execute(); 
             return $this->render('pages/search.html.twig',[
                 'statements' => $statements
             ]);
@@ -69,6 +82,14 @@ class BaseController extends AbstractController
         
         $this->get('session')->getFlashBag()->add('info', implode(',', $errors));
         return $this->redirectToRoute('homepage');
+    }
+    
+    /**
+    * @Route("/about", name = "about")
+    */
+    public function aboutUs()
+    {
+        return $this->render('base/about.html.twig');
     }
     
     public function getLastStatement()

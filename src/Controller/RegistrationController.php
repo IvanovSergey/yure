@@ -97,7 +97,34 @@ class RegistrationController extends Controller
                 'form' => $form->createView(),
             ));
         }
+        
+        return $this->render('@FOSUser/Registration/register_full.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+     * @param Request $request
+     * @Route("/registerHome/", name="register_home")
+     * @return Response
+     */
+    public function registerHomeAction(Request $request)
+    { 
+        $user = $this->userManager->createUser();
+        $user->setEnabled(true);
 
+        $event = new GetResponseUserEvent($user, $request);
+        $this->eventDispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $form = $this->get('fos_user_form_factory')->createForm();
+        $form->setData($user);
+
+        $form->handleRequest($request);
+        
         return $this->render('@FOSUser/Registration/register.html.twig', array(
             'form' => $form->createView(),
         ));

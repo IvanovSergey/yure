@@ -1,0 +1,9 @@
+<div class="card h-10">
+    <div class="card-body">
+        <h2 class="card-title">{{ statement.name }}</h2>
+        <p class="card-text">{{ statement.description }}</p>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url('homepage') }}statement/{{ statement.seopath }}" class="btn btn-primary">Посмотреть</a>
+    </div>
+</div>

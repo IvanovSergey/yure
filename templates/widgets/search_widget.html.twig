@@ -1,0 +1,14 @@
+<div class="col-lg-12">
+    <div class="container text-center search-wrapper">
+        <h2>Бесплатные легальные документы, заявления и контракты.</h2>
+        <h3>Распечатывайте ваши отредактированные документы за 5-10 минут.</h3><br />
+        <div class="row my-6 form-wrapper round">
+            <div class="col-md-12 mb-12 ">
+                <form name="form" method="post" action="{{ url('search') }}" >                
+                    <input name="search_widget" class="form-control-lg search-input" value="{{ app.request.get('search_widget') }}" placeholder="Поиск по заявлениям" name="search" />
+                    <input type="submit" class="btn btn-primary btn-lg main-search" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

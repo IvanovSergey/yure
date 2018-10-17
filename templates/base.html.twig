@@ -9,7 +9,7 @@
             <link href="{{ asset('css/loading.css') }}" rel="stylesheet" />
         {% endblock %}
     </head>
-    <body style="height: 100%;">
+    <body style="height: 100%;font-family: 'Open Sans', 'Lato', 'arial', 'sans-serif';">
         <div style="position: relative;height: auto !important;min-height: 100%;height: 100%;">
                 {% for message in app.session.flashbag.get('info') %}
                     <div class="alert alert-info alert-dismissible" role="alert">
@@ -64,13 +64,13 @@
             <div class="container">
                 <div class="row my-6">
                     <div class="col-md-6 mb-6 ">
-                        <h5 class="m-4 text-center text-white">Главная</h5>
+                        <a href="{{ path('homepage') }}"><h5 class="m-4 text-center text-white">Главная</h5></a>
                     </div>
                     <div class="col-md-6 mb-6 ">
-                        <h5 class="m-4 text-center text-white">Регистрация</h5>
+                        <a href="{{ path('register') }}"><h5 class="m-4 text-center text-white">Регистрация</h5></a>
                     </div>
                     <div class="col-md-6 mb-6 ">
-                        <h5 class="m-0 text-center text-white">О нас</h5>
+                        <a href="{{ path('about') }}"><h5 class="m-0 text-center text-white">О нас</h5></a>
                     </div>
                     <div class="col-md-6 mb-6 ">
                         <h5 class="m-0 text-center text-white">Поиск</h5>
